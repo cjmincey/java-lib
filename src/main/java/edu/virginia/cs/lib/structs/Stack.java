@@ -44,10 +44,6 @@ public class Stack<T> {
      * @return The value at the top of the stack.
      */
     public T peek(){
-        if(head != null){
-            return head.getVal();
-        } else {
-            return null;
-        }
+        return (head == null) ? null : head.getVal();
     }
 }
