@@ -2,6 +2,10 @@ package edu.virginia.cs.lib.structs;
 
 /**
  * A typical stack that only allows push, pop, and peek operations.
+ * 
+ * This class never throws an error for an element not being available in 
+ * the stack, we instead return null.
+ * 
  * @author Jordan Mincey
  * @param <T> The class this stack is associated with
  */

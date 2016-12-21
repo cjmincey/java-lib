@@ -1,9 +1,16 @@
 package edu.virginia.cs.lib.structs;
 
 /**
- *
+ * This class represents a regular queue where something is added to the
+ * tail of the queue and removed from the head of the queue. There are
+ * only three operations supported since we only want to support
+ * this limited ability.
+ * 
+ * This class never throws exceptions when trying to remove from an empty
+ * queue, it simply returns null.
+ * 
  * @author Jordan Mincey
- * @param <T>
+ * @param <T> The type of the queue.
  */
 public class Queue<T> {
     //keep both head and tail pointers so inserts
