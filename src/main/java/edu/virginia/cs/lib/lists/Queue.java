@@ -1,4 +1,4 @@
-package edu.virginia.cs.lib.structs;
+package edu.virginia.cs.lib.lists;
 
 /**
  * This class represents a regular queue where something is added to the

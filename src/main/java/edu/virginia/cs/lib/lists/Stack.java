@@ -1,4 +1,4 @@
-package edu.virginia.cs.lib.structs;
+package edu.virginia.cs.lib.lists;
 
 /**
  * A typical stack that only allows push, pop, and peek operations.

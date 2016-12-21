@@ -1,35 +1,31 @@
-package edu.virginia.cs.lib.structs;
+package edu.virginia.cs.lib.lists;
 
 /**
- * A node that can be used as part of a doubly linked linked list.
+ * A node that can be used as part of a singly linked linked list.
  * @author Jordan Mincey
  * @param <T> The type of node
  */
-public class NodeD<T> {
+public class Node<T> {
     private T val;
-    private NodeD<T> next;
-    private NodeD<T> prev;
+    private Node<T> next;
     
     /**
      * Create a node with just a val and a null next node.
      * @param val The object this node is associated with
      */
-    public NodeD(T val){
+    public Node(T val){
         this.val = val;
         next = null;
-        prev = null;
     }
     
     /**
      * Create a node with val and next pointers initialized.
      * @param val The object this node is associated with
      * @param next The next Node in this list
-     * @param prev the previous node in the list
      */
-    public NodeD(T val, NodeD<T> next, NodeD<T> prev){
+    public Node(T val, Node<T> next){
         this.val = val;
         this.next = next;
-        this.prev = prev;
     }
     
     /**
@@ -44,16 +40,8 @@ public class NodeD<T> {
      * 
      * @return The next Node in the list or null
      */
-    public NodeD<T> getNext(){
+    public Node<T> getNext(){
         return next;
-    }
-    
-        /**
-     * 
-     * @return The previous Node in the list or null
-     */
-    public NodeD<T> getPrev(){
-        return prev;
     }
     
     /**
@@ -68,15 +56,7 @@ public class NodeD<T> {
      * 
      * @param next the new neighbor of this Node
      */
-    public void setNext(NodeD<T> next){
+    public void setNext(Node<T> next){
         this.next = next;
-    }
-    
-        /**
-     * 
-     * @param prev the new neighbor of this Node
-     */
-    public void setPrev(NodeD<T> prev){
-        this.prev = prev;
     }
 }

@@ -1,5 +1,6 @@
-package edu.virginia.cs.lib.structs;
+package edu.virginia.cs.lib.lists;
 
+import edu.virginia.cs.lib.lists.Dequeue;
 import org.junit.Test;
 
 /**
