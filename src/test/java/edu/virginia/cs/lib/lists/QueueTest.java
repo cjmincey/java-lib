@@ -1,6 +1,5 @@
 package edu.virginia.cs.lib.lists;
 
-import edu.virginia.cs.lib.lists.Queue;
 import org.junit.Test;
 
 /**

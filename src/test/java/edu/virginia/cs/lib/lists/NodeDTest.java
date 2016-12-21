@@ -1,6 +1,5 @@
 package edu.virginia.cs.lib.lists;
 
-import edu.virginia.cs.lib.lists.NodeD;
 import org.junit.Test;
 
 /**
