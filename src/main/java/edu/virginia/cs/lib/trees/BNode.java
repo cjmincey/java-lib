@@ -75,4 +75,46 @@ public class BNode<T> {
     public void setRight(BNode<T> right){
         this.right = right;
     }
+    
+        /**
+     * Finds the right most node in a particular subtree or returns
+     * null if the subtree is empty.
+     * @param <T> The type for tree
+     * @param val The node we want to start the subtree search from
+     * @return The right most node in the subtree or null
+     */
+    public static <T> BNode<T> findRightMostNode(BNode<T> val) {
+        if (val == null) {
+            return null;
+        } else {
+            BNode<T> t = val;
+            BNode<T> p = null;
+            do {
+                p = t;
+                t = t.getRight();
+            } while (t != null);
+            return p;
+        }
+    }
+
+    /**
+     * Finds the left most node in a particular subtree or returns
+     * null if the subtree is empty.
+     * @param <T> The type for tree
+     * @param val The node we want to start the subtree search from
+     * @return The left most node in the subtree or null
+     */
+    public static <T> BNode<T> findLeftMostNode(BNode<T> val) {
+        if (val == null) {
+            return null;
+        } else {
+            BNode<T> t = val;
+            BNode<T> p = null;
+            do {
+                p = t;
+                t = t.getLeft();
+            } while (t != null);
+            return p;
+        }
+    }
 }

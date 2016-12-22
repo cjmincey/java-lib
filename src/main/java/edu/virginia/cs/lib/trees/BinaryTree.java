@@ -1,5 +1,7 @@
 package edu.virginia.cs.lib.trees;
 
+import java.util.ArrayList;
+
 /**
  * This is a regular binary tree that does not enforce the tree to be balanced.
  *
@@ -29,15 +31,17 @@ public class BinaryTree<T extends Comparable<T>> {
         } else {
             BNode<T> t = root;
             do {
-                if (t.getVal().compareTo(val) > 0) {
+                if (val.compareTo(t.getVal()) > 0) {
                     if (t.getRight() == null) {
                         t.setRight(n);
+                        break;
                     } else {
                         t = t.getRight();
                     }
                 } else {
                     if (t.getLeft() == null) {
                         t.setLeft(n);
+                        break;
                     } else {
                         t = t.getLeft();
                     }
@@ -60,10 +64,10 @@ public class BinaryTree<T extends Comparable<T>> {
         } else {
             BNode<T> t = root;
             do {
-                if (t.getVal().compareTo(val) == 0) {
+                if (val.compareTo(t.getVal()) == 0) {
                     return t.getVal();
                 } else {
-                    t = (t.getVal().compareTo(val) > 0)
+                    t = (val.compareTo(t.getVal()) > 0)
                             ? t.getRight() : t.getLeft();
                 }
             } while (t != null);
@@ -89,8 +93,7 @@ public class BinaryTree<T extends Comparable<T>> {
             BNode<T> p = null;
 
             do {
-                //TODO add a lot more cases
-                if (t.getVal().compareTo(val) == 0) {
+                if (val.compareTo(t.getVal()) == 0) {
                     if (p == null) {
                         //deleting the root
                         if (t.getLeft() == null && t.getRight() == null) {
@@ -100,8 +103,8 @@ public class BinaryTree<T extends Comparable<T>> {
                         } else if (t.getRight() == null) {
                             root = t.getLeft();
                         } else {
-                            BNode<T> newRoot = t.getRight();
-                            findRightMostNode(root.getLeft())
+                            BNode<T> newRoot = root.getRight();
+                            BNode.findRightMostNode(root.getLeft())
                                     .setRight(newRoot.getLeft());
                             newRoot.setLeft(root.getLeft());
                             root = newRoot;
@@ -117,12 +120,12 @@ public class BinaryTree<T extends Comparable<T>> {
                             if (flag) {
                                 //t is right child of p
                                 p.setRight(t.getLeft());
-                                findRightMostNode(t.getLeft())
+                                BNode.findRightMostNode(t.getLeft())
                                         .setRight(t.getRight());
                             } else {
                                 //t is left child of p
                                 p.setLeft(t.getRight());
-                                findLeftMostNode(t.getRight())
+                                BNode.findLeftMostNode(t.getRight())
                                         .setLeft(t.getLeft());
                             }
                         }
@@ -130,7 +133,7 @@ public class BinaryTree<T extends Comparable<T>> {
                     return t.getVal();
                 } else {
                     p = t;
-                    flag = t.getVal().compareTo(val) > 0;
+                    flag = val.compareTo(t.getVal()) > 0;
                     t = flag ? t.getRight() : t.getLeft();
                 }
             } while (t != null);
@@ -146,47 +149,32 @@ public class BinaryTree<T extends Comparable<T>> {
     public int getDepth(){
         return getDepth(root);
     }
-
+    
     /**
-     * Finds the right most node in a particular subtree or returns
-     * null if the subtree is empty.
-     * @param <T> The type for tree
-     * @param val The node we want to start the subtree search from
-     * @return The right most node in the subtree or null
+     * Pre Order traversal of the tree
+     * @return An ArrayList with the elements in Pre Order order
      */
-    private static <T> BNode<T> findRightMostNode(BNode<T> val) {
-        if (val == null) {
-            return null;
-        } else {
-            BNode<T> t = val;
-            BNode<T> p = null;
-            do {
-                p = t;
-                t = (t.getRight() == null) ? t.getLeft() : t.getRight();
-            } while (t != null);
-            return p;
-        }
+    public ArrayList<T> getPreOrder(){
+        ArrayList<T> a = new ArrayList<>();
+        return getPreOrder(root, a);
     }
-
+    
     /**
-     * Finds the left most node in a particular subtree or returns
-     * null if the subtree is empty.
-     * @param <T> The type for tree
-     * @param val The node we want to start the subtree search from
-     * @return The left most node in the subtree or null
+     * An in order traversal of the binary tree
+     * @return An ArrayList with the nodes in in-order order
      */
-    private static <T> BNode<T> findLeftMostNode(BNode<T> val) {
-        if (val == null) {
-            return null;
-        } else {
-            BNode<T> t = val;
-            BNode<T> p = null;
-            do {
-                p = t;
-                t = (t.getLeft() == null) ? t.getRight() : t.getLeft();
-            } while (t != null);
-            return p;
-        }
+    public ArrayList<T> getInOrder(){
+        ArrayList<T> a = new ArrayList<>();
+        return getInOrder(root, a);
+    }
+    
+    /**
+     * A post order traversal of the binary tree
+     * @return An ArrayList of the post ordering of the tree
+     */
+    public ArrayList<T> getPostOrder(){
+        ArrayList<T> a = new ArrayList<>();
+        return getPostOrder(root, a);
     }
     
     /**
@@ -201,5 +189,57 @@ public class BinaryTree<T extends Comparable<T>> {
         else
             return 1 + Math.max(getDepth(node.getLeft()),
                     getDepth(node.getRight()));
+    }
+    
+    /**
+     * Take in a node and return the Pre Order traversal start from that node
+     * @param <T> The type of the node
+     * @param node The node we are starting from
+     * @param a The ArrayList we are using to accumulate everything
+     * @return An ArrayList with the pre order traversal starting at
+     * the node
+     */
+    private static <T> ArrayList<T> getPreOrder(BNode<T> node, ArrayList<T> a){
+        if(node == null)
+            return a;
+        else {
+            a.add(node.getVal());
+            return getPreOrder(node.getRight(), getPreOrder(node.getLeft(), a));
+        }
+    }
+    
+    /**
+     * In order traversal of the binary tree starting at a node
+     * @param <T> The type of the node
+     * @param node The node to start at
+     * @param a The ArrayList that acts as an accumulator
+     * @return An ArrayList with the nodes in in-order order
+     */
+    private static <T> ArrayList<T> getInOrder(BNode<T> node, ArrayList<T> a){
+        if(node == null)
+            return a;
+        else {
+            ArrayList<T> left = getInOrder(node.getLeft(), a);
+            left.add(node.getVal());
+            return getInOrder(node.getRight(), left);
+        }
+    }
+    
+    /**
+     * A post order traversal of the binary tree
+     * @param <T> The type of the node
+     * @param node the node to start at
+     * @param a the array that acts as the accumulator
+     * @return An ArrayList of the post ordering of the subtree starting at the node
+     */
+    private static <T> ArrayList<T> getPostOrder(BNode<T> node, ArrayList<T> a){
+        if(node == null)
+            return a;
+        else {
+            ArrayList<T> arr = getPostOrder(node.getRight(),
+                    getPostOrder(node.getLeft(), a));
+            arr.add(node.getVal());
+            return arr;
+        }
     }
 }
