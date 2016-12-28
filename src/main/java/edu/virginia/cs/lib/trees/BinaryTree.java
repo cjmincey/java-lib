@@ -111,20 +111,29 @@ public class BinaryTree<T extends Comparable<T>> {
                             root = newRoot;
                         }
                     } else {
-                        if (t.getLeft() == null && t.getRight() == null) {
-                            p.setLeft(null);
-                        } else if (t.getLeft() == null) {
-                            p.setLeft(t.getRight());
-                        } else if (t.getRight() == null) {
-                            p.setLeft(t.getLeft());
-                        } else {
-                            if (flag) {
-                                //t is right child of p
+                        if(flag){
+                            //t is right child of p
+                            if (t.getLeft() == null && t.getRight() == null) {
+                                p.setRight(null);
+                            } else if (t.getLeft() == null) {
+                                p.setRight(t.getRight());
+                            } else if (t.getRight() == null) {
+                                p.setRight(t.getLeft());
+                            } else {
+                                //fix this
                                 p.setRight(t.getLeft());
                                 BNode.findRightMostNode(t.getLeft())
                                         .setRight(t.getRight());
+                            }
+                        } else {
+                            //t is left child of p
+                            if (t.getLeft() == null && t.getRight() == null) {
+                                p.setLeft(null);
+                            } else if (t.getLeft() == null) {
+                                p.setLeft(t.getRight());
+                            } else if (t.getRight() == null) {
+                                p.setLeft(t.getLeft());
                             } else {
-                                //t is left child of p
                                 p.setLeft(t.getRight());
                                 BNode.findLeftMostNode(t.getRight())
                                         .setLeft(t.getLeft());
@@ -145,10 +154,18 @@ public class BinaryTree<T extends Comparable<T>> {
     
     /**
      * 
-     * @return The depth of the tree
+     * @return The depth of the tree after an O(n) traversal
      */
     public int getDepth(){
         return getDepth(root);
+    }
+    
+    /**
+     * 
+     * @return The size of the tree after an O(n) traversal
+     */
+    public int getSize(){
+        return getSize(root);
     }
     
     /**
@@ -190,6 +207,19 @@ public class BinaryTree<T extends Comparable<T>> {
         else
             return 1 + Math.max(getDepth(node.getLeft()),
                     getDepth(node.getRight()));
+    }
+    
+    /**
+     * Finds the size of the subtree starting at a node
+     * @param <T> The type of tree
+     * @param node The node to start at
+     * @return The total number of nodes in the subtree
+     */
+    private static <T> int getSize(BNode<T> node){
+        if(node == null)
+            return 0;
+        else
+            return 1 + getSize(node.getLeft()) + getSize(node.getRight());
     }
     
     /**
@@ -246,5 +276,15 @@ public class BinaryTree<T extends Comparable<T>> {
             newStr.add(node.getVal());
             return newStr;
         }
+    }
+    
+        /**
+     * Asserts the binary tree maintains the binary tree property.
+     * This method is only used in unit tests to assert the above functions
+     * work correctly.
+     * @throws java.lang.AssertionError when it is an incorrect binary tree
+     */
+    public void assertCorrectBinaryTree(){
+        BNode.assertBinaryTreeProperty(root);
     }
 }

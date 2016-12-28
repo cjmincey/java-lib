@@ -35,6 +35,16 @@ public class BinaryTreeTest {
         assert(tree.getDepth() == 4);
     }
     
+    @Test
+    public void sizeTest(){
+        BinaryTree<String> tree = new BinaryTree<>();
+        assert(tree.getSize() == 0);
+        tree.insert("hello");
+        assert(tree.getSize() == 1);
+        tree.insert("bye");
+        assert(tree.getSize() == 2);
+    }
+    
     /**
      *            0
      *         /     \
@@ -71,7 +81,6 @@ public class BinaryTreeTest {
         assert(a.get(8) == 500);
     }
     
-    //TODO fix the remove functionality
     /**
      *        0                 50
      *       / \               /  \
@@ -79,7 +88,7 @@ public class BinaryTreeTest {
      *     /  /  \           / \
      *  -100 10   100     -100  10
      */
- /*   @Test
+    @Test
     public void removeRootTest(){
         BinaryTree<Integer> tree = new BinaryTree<>();
         tree.insert(0);
@@ -90,15 +99,19 @@ public class BinaryTreeTest {
         tree.insert(10);
         
         tree.remove(0);
-        ArrayList<Integer> a = tree.getInOrder()
-                .collect(Collectors.toCollection(ArrayList::new));
-        for(int n : a)
-            System.out.println(n);
-        assert(a.size() == 5);
-        assert(a.get(0) == 50);
-        assert(a.get(1) == -50);
-        assert(a.get(2) == -100);
-        assert(a.get(3) == 10);
-        assert(a.get(4) == 100);
-    }*/
+        tree.assertCorrectBinaryTree();
+    }
+    
+    @Test
+    public void removeNodeTest(){
+        BinaryTree<Double> tree = new BinaryTree<>();
+        tree.insert(0.0);
+        tree.insert(-25.0);
+        tree.insert(25.0);
+        tree.insert(-100.0);
+        tree.insert(100.0);
+        
+        tree.remove(25.0);
+        tree.assertCorrectBinaryTree();
+    }
 }

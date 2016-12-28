@@ -117,4 +117,26 @@ public class BNode<T> {
             return p;
         }
     }
+    
+    /**
+     * Assert that the tree structure starting at the current node maintains
+     * the binary tree property
+     * @param <T> The type of the binary tree
+     * @param val The node to start with
+     * @throws java.lang.AssertionError when the structure is not a binary tree
+     */
+    public static <T extends Comparable<T>> void assertBinaryTreeProperty
+            (BNode<T> val){
+        if(val != null){
+            if(val.getLeft() != null){
+                assert(val.getLeft().getVal().compareTo(val.getVal()) <= 0);
+                assertBinaryTreeProperty(val.getLeft());
+            }
+            if(val.getRight() != null){
+                assert(val.getRight().getVal().compareTo(val.getVal()) > 0);
+                assertBinaryTreeProperty(val.getRight());
+            }
+                
+        }
+    }
 }
