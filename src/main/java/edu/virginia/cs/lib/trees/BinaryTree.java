@@ -1,6 +1,7 @@
 package edu.virginia.cs.lib.trees;
 
-import java.util.ArrayList;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * This is a regular binary tree that does not enforce the tree to be balanced.
@@ -58,21 +59,21 @@ public class BinaryTree<T extends Comparable<T>> {
      * @return A reference to the value if the value was found and null if it
      * was not found
      */
-    public T find(T val) {
+    public Optional<T> find(T val) {
         if (root == null) {
-            return null;
+            return Optional.empty();
         } else {
             BNode<T> t = root;
             do {
                 if (val.compareTo(t.getVal()) == 0) {
-                    return t.getVal();
+                    return Optional.of(t.getVal());
                 } else {
                     t = (val.compareTo(t.getVal()) > 0)
                             ? t.getRight() : t.getLeft();
                 }
             } while (t != null);
             //not in tree
-            return null;
+            return Optional.empty();
         }
     }
 
@@ -84,9 +85,9 @@ public class BinaryTree<T extends Comparable<T>> {
      * @return A reference to the value that was deleted or null if it was not
      * in the tree.
      */
-    public T remove(T val) {
+    public Optional<T> remove(T val) {
         if (root == null) {
-            return null;
+            return Optional.empty();
         } else {
             boolean flag = true;
             BNode<T> t = root;
@@ -130,7 +131,7 @@ public class BinaryTree<T extends Comparable<T>> {
                             }
                         }
                     }
-                    return t.getVal();
+                    return Optional.of(t.getVal());
                 } else {
                     p = t;
                     flag = val.compareTo(t.getVal()) > 0;
@@ -138,7 +139,7 @@ public class BinaryTree<T extends Comparable<T>> {
                 }
             } while (t != null);
             //not in tree
-            return null;
+            return Optional.empty();
         }
     }
     
@@ -152,29 +153,29 @@ public class BinaryTree<T extends Comparable<T>> {
     
     /**
      * Pre Order traversal of the tree
-     * @return An ArrayList with the elements in Pre Order order
+     * @return A Stream with the elements in Pre Order order
      */
-    public ArrayList<T> getPreOrder(){
-        ArrayList<T> a = new ArrayList<>();
-        return getPreOrder(root, a);
+    public Stream<T> getPreOrder(){
+        Stream.Builder<T> stream = Stream.builder();
+        return getPreOrder(root, stream).build();
     }
     
     /**
      * An in order traversal of the binary tree
-     * @return An ArrayList with the nodes in in-order order
+     * @return A Stream with the nodes in in-order order
      */
-    public ArrayList<T> getInOrder(){
-        ArrayList<T> a = new ArrayList<>();
-        return getInOrder(root, a);
+    public Stream<T> getInOrder(){
+        Stream.Builder<T> stream = Stream.builder();
+        return getInOrder(root, stream).build();
     }
     
     /**
      * A post order traversal of the binary tree
-     * @return An ArrayList of the post ordering of the tree
+     * @return A Stream of the post ordering of the tree
      */
-    public ArrayList<T> getPostOrder(){
-        ArrayList<T> a = new ArrayList<>();
-        return getPostOrder(root, a);
+    public Stream<T> getPostOrder(){
+        Stream.Builder<T> stream = Stream.builder();
+        return getPostOrder(root, stream).build();
     }
     
     /**
@@ -195,16 +196,18 @@ public class BinaryTree<T extends Comparable<T>> {
      * Take in a node and return the Pre Order traversal start from that node
      * @param <T> The type of the node
      * @param node The node we are starting from
-     * @param a The ArrayList we are using to accumulate everything
-     * @return An ArrayList with the pre order traversal starting at
+     * @param a The Stream we are using to accumulate everything
+     * @return A Stream with the pre order traversal starting at
      * the node
      */
-    private static <T> ArrayList<T> getPreOrder(BNode<T> node, ArrayList<T> a){
+    private static <T> Stream.Builder<T> getPreOrder(BNode<T> node,
+            Stream.Builder<T> stream){
         if(node == null)
-            return a;
+            return stream;
         else {
-            a.add(node.getVal());
-            return getPreOrder(node.getRight(), getPreOrder(node.getLeft(), a));
+            stream.add(node.getVal());
+            return getPreOrder(node.getRight(),
+                    getPreOrder(node.getLeft(), stream));
         }
     }
     
@@ -212,14 +215,15 @@ public class BinaryTree<T extends Comparable<T>> {
      * In order traversal of the binary tree starting at a node
      * @param <T> The type of the node
      * @param node The node to start at
-     * @param a The ArrayList that acts as an accumulator
-     * @return An ArrayList with the nodes in in-order order
+     * @param a The Stream that acts as an accumulator
+     * @return A Stream with the nodes in in-order order
      */
-    private static <T> ArrayList<T> getInOrder(BNode<T> node, ArrayList<T> a){
+    private static <T> Stream.Builder<T> getInOrder(BNode<T> node,
+            Stream.Builder<T> stream){
         if(node == null)
-            return a;
+            return stream;
         else {
-            ArrayList<T> left = getInOrder(node.getLeft(), a);
+            Stream.Builder<T> left = getInOrder(node.getLeft(), stream);
             left.add(node.getVal());
             return getInOrder(node.getRight(), left);
         }
@@ -229,17 +233,18 @@ public class BinaryTree<T extends Comparable<T>> {
      * A post order traversal of the binary tree
      * @param <T> The type of the node
      * @param node the node to start at
-     * @param a the array that acts as the accumulator
-     * @return An ArrayList of the post ordering of the subtree starting at the node
+     * @param a the Stream that acts as the accumulator
+     * @return An Stream of the post ordering of the subtree starting at the node
      */
-    private static <T> ArrayList<T> getPostOrder(BNode<T> node, ArrayList<T> a){
+    private static <T> Stream.Builder<T> getPostOrder(BNode<T> node,
+            Stream.Builder<T> stream){
         if(node == null)
-            return a;
+            return stream;
         else {
-            ArrayList<T> arr = getPostOrder(node.getRight(),
-                    getPostOrder(node.getLeft(), a));
-            arr.add(node.getVal());
-            return arr;
+            Stream.Builder<T> newStr = getPostOrder(node.getRight(),
+                    getPostOrder(node.getLeft(), stream));
+            newStr.add(node.getVal());
+            return newStr;
         }
     }
 }

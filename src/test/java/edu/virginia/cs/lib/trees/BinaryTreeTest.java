@@ -1,6 +1,7 @@
 package edu.virginia.cs.lib.trees;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import org.junit.Test;
 
 /**
@@ -56,7 +57,8 @@ public class BinaryTreeTest {
         tree.insert(80);
         tree.insert(500);
         
-        ArrayList<Integer> a = tree.getPreOrder();
+        ArrayList<Integer> a = tree.getPreOrder()
+                .collect(Collectors.toCollection(ArrayList::new));
         assert(a.size() == 9);
         assert(a.get(0) == 0);
         assert(a.get(1) == -100);
@@ -88,7 +90,8 @@ public class BinaryTreeTest {
         tree.insert(10);
         
         tree.remove(0);
-        ArrayList<Integer> a = tree.getInOrder();
+        ArrayList<Integer> a = tree.getInOrder()
+                .collect(Collectors.toCollection(ArrayList::new));
         for(int n : a)
             System.out.println(n);
         assert(a.size() == 5);
