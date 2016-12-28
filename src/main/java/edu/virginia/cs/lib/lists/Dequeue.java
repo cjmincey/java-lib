@@ -1,5 +1,7 @@
 package edu.virginia.cs.lib.lists;
 
+import java.util.Optional;
+
 /**
  * This class represents a regular dequeue that has operations on both
  * ends of the dequeue. The dequeue can have things added and removed
@@ -46,11 +48,12 @@ public class Dequeue<T> {
     
     /**
      * Remove an element from the head of the dequeue
-     * @return the head of the dequeue after removing it
+     * @return an optional with the head of the dequeue after removing it if
+     * it there is an item in the list
      */
-    public T removeHead(){
+    public Optional<T> removeHead(){
         if(head == null){
-            return null;
+            return Optional.empty();
         } else {
             NodeD<T> n = head;
             if(n.getNext() == null){
@@ -60,16 +63,16 @@ public class Dequeue<T> {
                 n.getNext().setPrev(null);
                 head = n.getNext();
             }
-            return n.getVal();
+            return Optional.of(n.getVal());
         }
     }
     
     /**
      * Returns the head of the dequeue without removing it
-     * @return The head of the dequeue
+     * @return An optional with the head if it exists
      */
-    public T peekHead(){
-        return (head == null) ? null : head.getVal();
+    public Optional<T> peekHead(){
+        return (head == null) ? Optional.empty() : Optional.of(head.getVal());
     }
     
     /**
@@ -91,11 +94,11 @@ public class Dequeue<T> {
     
     /**
      * Remove an element from the tail of the dequeue
-     * @return The tail of the dequeue
+     * @return An optional with the tail of the dequeue if it exists
      */
-    public T removeTail(){
+    public Optional<T> removeTail(){
         if(tail == null){
-            return null;
+            return Optional.empty();
         } else {
             NodeD<T> n = tail;
             if(tail.getPrev() == null){
@@ -105,15 +108,15 @@ public class Dequeue<T> {
                 tail = tail.getPrev();
                 tail.setNext(null);
             }
-            return n.getVal();
+            return Optional.of(n.getVal());
         }
     }
     
     /**
      * Returns the tail of the dequeue without removing it
-     * @return The tail of the dequeue
+     * @return An optional with the tail of the dequeue if it exists
      */
-    public T peekTail(){
-        return (tail == null) ? null : tail.getVal();
+    public Optional<T> peekTail(){
+        return (tail == null) ? Optional.empty() : Optional.of(tail.getVal());
     }
 }

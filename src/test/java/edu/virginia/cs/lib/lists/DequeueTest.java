@@ -10,38 +10,38 @@ public class DequeueTest {
     @Test
     public void addHeadTest(){
         Dequeue<Integer> d = new Dequeue<>();
-        assert(d.peekHead() == null);
-        assert(d.peekTail() == null);
+        assert(!d.peekHead().isPresent());
+        assert(!d.peekTail().isPresent());
         d.addHead(Integer.MAX_VALUE);
         d.addHead(Integer.MIN_VALUE);
         d.addHead(Integer.SIZE);
-        assert(d.removeTail() == Integer.MAX_VALUE);
-        assert(d.removeHead() == Integer.SIZE);
-        assert(d.removeHead() == Integer.MIN_VALUE);
-        assert(d.peekHead() == null);
-        assert(d.peekTail() == null);
+        assert(d.removeTail().get() == Integer.MAX_VALUE);
+        assert(d.removeHead().get() == Integer.SIZE);
+        assert(d.removeHead().get() == Integer.MIN_VALUE);
+        assert(!d.peekHead().isPresent());
+        assert(!d.peekTail().isPresent());
     }
     
     @Test
     public void addTailTest(){
         Dequeue<Integer> d = new Dequeue<>();
-        assert(d.removeHead() == null);
-        assert(d.removeTail() == null);
+        assert(!d.removeHead().isPresent());
+        assert(!d.removeTail().isPresent());
         d.addTail(Integer.MAX_VALUE);
         d.addTail(Integer.SIZE);
-        assert(d.removeHead() == Integer.MAX_VALUE);
-        assert(d.removeTail() == Integer.SIZE);
-        assert(d.removeHead() == null);
-        assert(d.removeTail() == null);
+        assert(d.removeHead().get() == Integer.MAX_VALUE);
+        assert(d.removeTail().get() == Integer.SIZE);
+        assert(!d.removeHead().isPresent());
+        assert(!d.removeTail().isPresent());
         d.addHead(Integer.SIZE);
         d.addTail(Integer.MAX_VALUE);
         d.addHead(Integer.MIN_VALUE);
-        assert(d.removeTail() == Integer.MAX_VALUE);
-        assert(d.removeHead() == Integer.MIN_VALUE);
-        assert(d.peekHead() == Integer.SIZE);
-        assert(d.peekTail() == Integer.SIZE);
-        assert(d.removeHead() == Integer.SIZE);
-        assert(d.removeTail() == null);
-        assert(d.removeHead() == null);
+        assert(d.removeTail().get() == Integer.MAX_VALUE);
+        assert(d.removeHead().get() == Integer.MIN_VALUE);
+        assert(d.peekHead().get() == Integer.SIZE);
+        assert(d.peekTail().get() == Integer.SIZE);
+        assert(d.removeHead().get() == Integer.SIZE);
+        assert(!d.removeTail().isPresent());
+        assert(!d.removeHead().isPresent());
     }
 }

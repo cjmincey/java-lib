@@ -1,5 +1,7 @@
 package edu.virginia.cs.lib.lists;
 
+import java.util.Optional;
+
 /**
  * This class represents a regular queue where something is added to the
  * tail of the queue and removed from the head of the queue. There are
@@ -43,9 +45,9 @@ public class Queue<T> {
     
     /**
      * Remove the head of the queue and return it.
-     * @return a value from the front of the queue
+     * @return an Optional value from the front of the queue if one exists
      */
-    public T dequeue(){
+    public Optional<T> dequeue(){
         if(head != null){
             Node<T> n = head;
             head = n.getNext();
@@ -54,17 +56,17 @@ public class Queue<T> {
                 tail = null;
             }
             
-            return n.getVal();
+            return Optional.of(n.getVal());
         } else {
-            return null;
+            return Optional.empty();
         }
     }
     
     /**
      * Do not remove the head of the queue but return it.
-     * @return The head of the queue.
+     * @return The head of the queue if it exists.
      */
-    public T peek(){
-        return (head == null) ? null : head.getVal();
+    public Optional<T> peek(){
+        return (head == null) ? Optional.empty() : Optional.of(head.getVal());
     }
 }

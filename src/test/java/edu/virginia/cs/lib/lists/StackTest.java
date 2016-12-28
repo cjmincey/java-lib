@@ -10,18 +10,18 @@ public class StackTest {
     @Test
     public void intStack(){
         Stack<Integer> s = new Stack<>();
-        assert(s.peek() == null);
+        assert(!s.peek().isPresent());
         s.push(Integer.MAX_VALUE);
-        assert(s.peek() == Integer.MAX_VALUE);
+        assert(s.peek().get() == Integer.MAX_VALUE);
         s.push(1);
         s.push(2);
         s.push(3);
-        assert(s.pop() == 3);
-        assert(s.pop() == 2);
-        assert(s.pop() == 1);
-        assert(s.pop() == Integer.MAX_VALUE);
-        assert(s.peek() == null);
-        assert(s.pop() == null);
+        assert(s.pop().get() == 3);
+        assert(s.pop().get() == 2);
+        assert(s.pop().get() == 1);
+        assert(s.pop().get() == Integer.MAX_VALUE);
+        assert(!s.peek().isPresent());
+        assert(!s.pop().isPresent());
     }
     
     @Test
@@ -32,10 +32,10 @@ public class StackTest {
         s.push(a[0]);
         s.push(a[1]);
         s.push(a[2]);
-        assert(s.pop().equals(a[2]));
-        assert(s.peek().equals(a[1]));
-        assert(s.pop().equals(a[1]));
-        assert(s.pop().equals(a[0]));
-        assert(s.pop() == null);
+        assert(s.pop().get().equals(a[2]));
+        assert(s.peek().get().equals(a[1]));
+        assert(s.pop().get().equals(a[1]));
+        assert(s.pop().get().equals(a[0]));
+        assert(!s.pop().isPresent());
     }
 }

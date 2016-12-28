@@ -1,5 +1,7 @@
 package edu.virginia.cs.lib.lists;
 
+import java.util.Optional;
+
 /**
  * A typical stack that only allows push, pop, and peek operations.
  * 
@@ -31,23 +33,23 @@ public class Stack<T> {
     /**
      * Remove a value from the stack which is the last value
      * that was added to it.
-     * @return The value just removed from the head of the stack.
+     * @return The value just removed from the head of the stack if one exists.
      */
-    public T pop(){
+    public Optional<T> pop(){
         if(head != null){
             Node<T> n = head;
             head = n.getNext();
-            return n.getVal();
+            return Optional.of(n.getVal());
         } else {
-            return null;
+            return Optional.empty();
         }
     }
     
     /**
      * Show the value at the top of the stack but do not remove it.
-     * @return The value at the top of the stack.
+     * @return The value at the top of the stack if one exists.
      */
-    public T peek(){
-        return (head == null) ? null : head.getVal();
+    public Optional<T> peek(){
+        return (head == null) ? Optional.empty() : Optional.of(head.getVal());
     }
 }

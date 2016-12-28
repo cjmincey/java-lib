@@ -10,18 +10,18 @@ public class QueueTest {
     @Test
     public void intQueue(){
         Queue<Integer> q = new Queue<>();
-        assert(q.peek() == null);
-        assert(q.dequeue() == null);
+        assert(!q.peek().isPresent());
+        assert(!q.dequeue().isPresent());
         q.enqueue(Integer.MAX_VALUE);
-        assert(q.peek() == Integer.MAX_VALUE);
-        assert(q.dequeue() == Integer.MAX_VALUE);
-        assert(q.dequeue() == null);
+        assert(q.peek().get() == Integer.MAX_VALUE);
+        assert(q.dequeue().get() == Integer.MAX_VALUE);
+        assert(!q.dequeue().isPresent());
         q.enqueue(Integer.MAX_VALUE);
         q.enqueue(Integer.MIN_VALUE);
-        assert(q.dequeue() == Integer.MAX_VALUE);
-        assert(q.peek() == Integer.MIN_VALUE);
-        assert(q.dequeue() == Integer.MIN_VALUE);
-        assert(q.peek() == null);
+        assert(q.dequeue().get() == Integer.MAX_VALUE);
+        assert(q.peek().get() == Integer.MIN_VALUE);
+        assert(q.dequeue().get() == Integer.MIN_VALUE);
+        assert(!q.peek().isPresent());
     }
     
     @Test
@@ -31,9 +31,9 @@ public class QueueTest {
         q.enqueue(s[0]);
         q.enqueue(s[1]);
         q.enqueue(s[2]);
-        assert(q.dequeue().equals(s[0]));
-        assert(q.dequeue().equals(s[1]));
-        assert(q.dequeue().equals(s[2]));
-        assert(q.dequeue() == null);
+        assert(q.dequeue().get().equals(s[0]));
+        assert(q.dequeue().get().equals(s[1]));
+        assert(q.dequeue().get().equals(s[2]));
+        assert(!q.dequeue().isPresent());
     }
 }
